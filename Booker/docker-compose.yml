@@ -1,11 +1,13 @@
 version: '3.7'
 services:
+  web:
+    build: .
+    ports:
+        - 80:80
+    depends_on:
+        - mongodb_container
   mongodb_container:
     image: mongo:latest
-    environment:
-      - MONGO_INITDB_DATABASE=BookerDB
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=rootpassword
     ports:
-      - 27017:32768
+      - 27017:27017
   
