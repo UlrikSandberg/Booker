@@ -1,6 +1,10 @@
+using AutoMapper;
 using Booker.Configuration;
 using Booker.Handlers;
+using Booker.Mapping;
+using Booker.Persistence.Models;
 using Booker.Persistence.Repositories;
+using Booker.RequestModels;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -38,15 +42,34 @@ namespace Booker
 
             // Register repositories
             services.AddScoped<IUserRepository, UserRepository>();
-            
+
+            //Register mapper
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
 
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration => { configuration.RootPath = "ClientApp/build"; });
+
+            //Swaggerrrr
+            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            //Swaggerrr
+            app.UseSwagger();
+            //Enable middleware to serve ui
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Booker app");
+            });
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

@@ -1,3 +1,4 @@
+using Booker.RequestModels;
 using System;
 
 namespace Booker.Persistence.Models
@@ -6,5 +7,6 @@ namespace Booker.Persistence.Models
     {
         public Guid Id { get; set; }
         public string Name { get; set; }
+
     }
 }

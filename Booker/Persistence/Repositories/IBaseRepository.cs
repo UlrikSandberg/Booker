@@ -12,5 +12,6 @@ namespace Booker.Persistence.Repositories
         Task<IEnumerable<TEntity>> GetPaged(int page, int pageSize);
         Task<TEntity> GetById(Guid id);
         Task<Guid> Insert(TEntity entity);
+        Task<TEntity> Put(TEntity entity);
     }
 }

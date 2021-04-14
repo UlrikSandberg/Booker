@@ -101,5 +101,13 @@ namespace Booker.Persistence.Repositories
             await Collection().InsertOneAsync(entity, new InsertOneOptions());
             return entity.Id;
         }
+
+        public async Task<TEntity> Put(TEntity entity)
+        {
+            var filter = Builders<TEntity>.Filter.Eq("Id", entity.Id);
+            var existing = this.GetById(entity.Id);
+
+            return await Collection().FindOneAndReplaceAsync(filter, entity);
+        }
     }
 }
